@@ -1,0 +1,10 @@
+{
+    // Specifies the location of the xmpfilter executable
+    "xmpfilter_bin": "xmpfilter",
+
+    // Set to true to use rbenv-managed Ruby version if present (Linux & OSX only)
+    "check_for_rbenv": false,
+
+    // Set to true to use rvm-managed Ruby version if present (Linux & OSX only)
+    "check_for_rvm": false
+}
