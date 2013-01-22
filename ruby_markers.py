@@ -23,8 +23,6 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             cmd = self.settings.get("cmd", [])
             cmd.append(self.settings.get("xmpfilter_bin_posix", "xmpfilter"))
 
-        print cmd
-
         try:
             s = subprocess.Popen(
                 cmd,
