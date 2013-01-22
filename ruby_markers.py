@@ -14,8 +14,14 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
         text_reg = sublime.Region(0, self.view.size())
         text = self.view.substr(text_reg)
         
-        cmd = self.settings.get("cmd", [])
-        cmd.append(self.settings.get("xmpfilter_bin", "xmpfilter"))
+        startupinfo = None
+        if  sublime.platform() == "windows":
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            cmd = [self.settings.get("xmpfilter_bin_win", "xmpfilter.bat")]
+        else:
+            cmd = self.settings.get("cmd", [])
+            cmd.append(self.settings.get("xmpfilter_bin_posix", "xmpfilter"))
 
         print cmd
 
@@ -24,10 +30,11 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
                 cmd,
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE)
+                stderr=subprocess.PIPE,
+                startupinfo=startupinfo)
             out, err = s.communicate(text)
             if s.returncode != None and s.returncode != 0:
-                sublime.message_dialog("There was an error: " + err)
+                sublime.message_dialog("There was a subprocess error: " + err)
                 return
             # Replace the entire buffer with output and trim trailing newline
             self.view.replace(edit, text_reg, out[:-1])
@@ -36,7 +43,7 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             self.reset_selections()
 
         except OSError, e:
-            sublime.message_dialog("There was an error: " + e.strerror)
+            sublime.message_dialog("There was an OS error: " + e.strerror)
 
 
     def get_selections(self):
@@ -56,12 +63,13 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
         
         # Check for rmv or rbenv use
         # Thanks to Ruby Tests plugin <https://github.com/maltize/sublime-text-2-ruby-tests>
-        rbenv_cmd = os.path.expanduser('~/.rbenv/bin/rbenv')
-        rvm_cmd = os.path.expanduser('~/.rvm/bin/rvm-auto-ruby')
-        if self.settings.get("check_for_rbenv") and is_executable(rbenv_cmd):
-            self.settings.set("cmd", [rbenv_cmd, 'exec'])
-        if self.settings.get("check_for_rvm") and is_executable(rvm_cmd):
-            self.settings.set("cmd", [rvm_cmd, '-S'])
+        if sublime.platform() != "windows":
+            rbenv_cmd = os.path.expanduser('~/.rbenv/bin/rbenv')
+            rvm_cmd = os.path.expanduser('~/.rvm/bin/rvm-auto-ruby')
+            if self.settings.get("check_for_rbenv") and is_executable(rbenv_cmd):
+                self.settings.set("cmd", [rbenv_cmd, 'exec'])
+            if self.settings.get("check_for_rvm") and is_executable(rvm_cmd):
+                self.settings.set("cmd", [rvm_cmd, '-S'])
         
 
     def reset_selections(self):

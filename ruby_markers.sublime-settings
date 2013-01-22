@@ -1,6 +1,8 @@
 {
     // Specifies the location of the xmpfilter executable
-    "xmpfilter_bin": "xmpfilter",
+    // posix for Linux & OSX; win for windows
+    "xmpfilter_bin_posix": "xmpfilter",
+    "xmpfilter_bin_win": "xmpfilter.bat",
 
     // Set to true to use rbenv-managed Ruby version if present (Linux & OSX only)
     "check_for_rbenv": false,
