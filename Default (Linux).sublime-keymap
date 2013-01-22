@@ -1,3 +1,3 @@
 [
-    { "keys": ["ctrl+alt+u"], "command": "ruby_markers" }
+    { "keys": ["alt+shift+u"], "command": "ruby_markers" }
 ]

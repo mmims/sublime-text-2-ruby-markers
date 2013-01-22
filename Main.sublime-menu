@@ -1,5 +1,17 @@
 [
     {
+        "caption": "Tools",
+        "mnemonic": "t",
+        "id": "tools",
+        "children":
+        [
+            {
+                "caption": "Execute and Update '# =>' Markers",
+                "command": "ruby_markers"
+            }
+        ]
+    },
+    {
         "caption": "Preferences",
         "mnemonic": "n",
         "id": "preferences",
