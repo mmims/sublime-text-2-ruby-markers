@@ -1,6 +1,6 @@
 # Sublime Text 2 Ruby Markers #
 
-A Sublime Text 2 plugin to execute ruby code and update `# =>` markers with the results. The plugin relies on the xmpfilter component of [rcodetools][0].
+A Sublime Text 2 plugin to execute ruby code and update `# =>` markers with the results using the xmpfilter component of [rcodetools][0].
 
 ## Installation ##
 
@@ -23,8 +23,48 @@ Manually, via git:
 
 ## Usage ##
 
- * Add `# => ` after any Ruby statement you would like to see the result of.
- * Use `Alt+Shift+u` or `Tools -> Execute and Update '# =>' Markers` to execute the Ruby code and update the `# => ` markers.
+Use `Alt+Shift+u` or `Tools -> Execute and Update '# =>' Markers` to execute the Ruby code and update the `# => ` markers.
+
+### Capturing STDOUT ###
+
+If you have a Ruby script that looks like:
+
+```ruby
+3.times { puts "Hello, World!" }
+```
+Running Ruby Markers will produce:
+
+```ruby
+3.times { puts "Hello World!" }
+# >> Hello World!
+# >> Hello World!
+# >> Hello World!
+```
+
+### Code Annotation ###
+ 
+If you have a Ruby script that looks like:
+
+```ruby
+def fib(n)
+    n < 2 ? n : fib(n-1) + fib(n-2)
+end
+
+fib(11)     # => 
+fib(23)     # => 
+```
+
+Running Ruby Markers will produce:
+
+```ruby
+def fib(n)
+    n < 2 ? n : fib(n-1) + fib(n-2)
+end
+
+fib(11)     # => 89
+fib(23)     # => 28657
+```
+
 
  [0]: http://rubyforge.org/projects/rcodetools
  [1]: http://www.ruby-lang.org
