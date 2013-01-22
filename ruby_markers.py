@@ -58,6 +58,13 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
                 })
 
 
+    def is_visible(self):
+        syntax = self.view.settings().get("syntax").lower()
+        return (syntax == "packages/ruby/ruby.tmlanguage") or \
+               (syntax == "packages/text/plain text.tmlanguage") or \
+               self.view.is_scratch()
+
+
     def load_settings(self):
         self.settings = sublime.load_settings(__name__ + '.sublime-settings')
         
