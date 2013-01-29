@@ -12,7 +12,7 @@ The rcodetools gem **must** be installed on in order for the Ruby Markers plugin
 
 ### Sublime Text 2 Ruby Markers ###
 
-Using [Package Manager][3] (recommended):
+Using [Package Control][3] (recommended):
 
  * Use `Cmd+Shift+P` or `Ctrl+Shift+P` to open the Command Palette, then select `Package Control: Install Package`.
  * Look for `Ruby Markers` and install it.
