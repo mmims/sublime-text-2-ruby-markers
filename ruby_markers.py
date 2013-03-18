@@ -30,12 +30,12 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 startupinfo=startupinfo)
-            out, err = s.communicate(text)
+            out, err = s.communicate(text.encode('utf8'))
             if s.returncode != None and s.returncode != 0:
                 sublime.message_dialog("There was a subprocess error: " + err)
                 return
             # Replace the entire buffer with output and trim trailing newline
-            self.view.replace(edit, text_reg, out[:-1])
+            self.view.replace(edit, text_reg, out.decode('utf8')[:-1])
             
             # Maintain original selections
             self.reset_selections()
