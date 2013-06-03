@@ -1,8 +1,10 @@
-import sublime, sublime_plugin, subprocess, os
+import sublime, sublime_plugin, subprocess, os, re
 
 def is_executable(path):
     return os.path.isfile(path) and os.access(path, os.X_OK)
 
+def  strip_stdout_comments(text):
+    return re.sub('(?m)^# >> .*\Z', '', text)
     
 class RubyMarkersCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -13,6 +15,8 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
     def execute_and_update(self, edit):
         text_reg = sublime.Region(0, self.view.size())
         text = self.view.substr(text_reg)
+        if self.settings.get("strip_stdout"):
+            text = strip_stdout_comments(text)
         
         startupinfo = None
         if  sublime.platform() == "windows":
@@ -34,6 +38,7 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             if s.returncode != None and s.returncode != 0:
                 sublime.message_dialog("There was a subprocess error: " + err)
                 return
+
             # Replace the entire buffer with output and trim trailing newline
             self.view.replace(edit, text_reg, out.decode('utf8')[:-1])
             

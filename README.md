@@ -71,6 +71,42 @@ fib(11)     # => 89
 fib(23)     # => 28657
 ```
 
+## Settings ##
+
+### xmpfilter_bin_posix ###
+
+Specifies the location of the xmpfilter executable for Linux & OSX systems. Default setting:
+```json
+"xmpfilter_bin_posix": "xmpfilter"
+```
+
+### xmpfilter_bin_win ###
+
+Specifies the location of the xmpfilter executable for Windows systems. Default setting:
+```json
+"xmpfilter_bin_win": "xmpfilter.bat"
+```
+
+### check_for_rbenv ###
+
+Set to true to use rbenv-managed Ruby version if present (Linux & OSX only). Default setting:
+```json
+"check_for_rbenv": false
+```
+
+### check_for_rvm ###
+
+Set to true to use rvm-managed Ruby version if present (Linux & OSX only). Default setting:
+```json
+"check_for_rvm": false,
+```
+
+### strip_stdout ###
+
+Set to true to strip stdout comments (`# >> `) before updating the buffer. Default setting:
+```json
+"strip_stdout": false
+```
 
  [0]: http://rubyforge.org/projects/rcodetools
  [1]: http://www.ruby-lang.org

@@ -8,5 +8,8 @@
     "check_for_rbenv": false,
 
     // Set to true to use rvm-managed Ruby version if present (Linux & OSX only)
-    "check_for_rvm": false
+    "check_for_rvm": false,
+
+    // Set to true to strip stdout comments (# >> ) before updating the buffer
+    "strip_stdout": false
 }
