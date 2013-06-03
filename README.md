@@ -98,7 +98,7 @@ Set to true to use rbenv-managed Ruby version if present (Linux & OSX only). Def
 
 Set to true to use rvm-managed Ruby version if present (Linux & OSX only). Default setting:
 ```json
-"check_for_rvm": false,
+"check_for_rvm": false
 ```
 
 ### strip_stdout ###
