@@ -5,19 +5,19 @@ def is_executable(path):
 
 def  strip_stdout_comments(text):
     return re.sub('(?m)^# >> .*\Z', '', text)
-    
+
 class RubyMarkersCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.get_selections()
         self.load_settings()
         self.execute_and_update(edit)
-        
+
     def execute_and_update(self, edit):
         text_reg = sublime.Region(0, self.view.size())
         text = self.view.substr(text_reg)
         if self.settings.get("strip_stdout"):
             text = strip_stdout_comments(text)
-        
+
         startupinfo = None
         if  sublime.platform() == "windows":
             startupinfo = subprocess.STARTUPINFO()
@@ -41,11 +41,11 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
 
             # Replace the entire buffer with output and trim trailing newline
             self.view.replace(edit, text_reg, out.decode('utf8')[:-1])
-            
+
             # Maintain original selections
             self.reset_selections()
 
-        except OSError, e:
+        except OSError as e:
             sublime.message_dialog("There was an OS error: " + e.strerror)
 
 
@@ -69,8 +69,8 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
 
 
     def load_settings(self):
-        self.settings = sublime.load_settings(__name__ + '.sublime-settings')
-        
+        self.settings = sublime.load_settings('ruby_markers.sublime-settings')
+
         # Check for rmv or rbenv use
         # Thanks to Ruby Tests plugin <https://github.com/maltize/sublime-text-2-ruby-tests>
         if sublime.platform() != "windows":
@@ -80,7 +80,7 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
                 self.settings.set("cmd", [rbenv_cmd, 'exec'])
             if self.settings.get("check_for_rvm") and is_executable(rvm_cmd):
                 self.settings.set("cmd", [rvm_cmd, '-S'])
-        
+
 
     def reset_selections(self):
         self.view.sel().clear()
