@@ -6,9 +6,11 @@ A Sublime Text 2 plugin to execute ruby code and update `# =>` markers with the 
 
 ### rcodetools ###
 
-The rcodetools gem **must** be installed on in order for the Ruby Markers plugin to function properly. Assuming you have [ruby][1] and [rubygems][2] installed, install the rcodetools gem:
+The *rcodetools* gem **must** be installed on in order for the Ruby Markers plugin to function properly. Assuming you have [ruby][1] and [rubygems][2] installed, install the *rcodetools* gem:
 
     $ gem install rcodetools
+
+*rbenv* users, please note that you will have to run `$ rbenv rehash` after installing the gem in order for *rbenv* to recognize the *xmpfilter* command.
 
 ### Sublime Text 2 Ruby Markers ###
 
@@ -29,7 +31,7 @@ and clone the plugin via git:
 
 ## Usage ##
 
-Use `Alt+Shift+u` or `Tools -> Execute and Update '# =>' Markers` to run the Ruby code through the `xmpfilter` and update the current buffer with the results.
+Use `Alt+Shift+u` or `Tools -> Execute and Update '# =>' Markers` to run the Ruby code through the *xmpfilter* and update the current buffer with the results.
 
 ### Capturing STDOUT ###
 
@@ -48,6 +50,8 @@ Running the plugin will update the buffer with:
 ```
 
 ### Code Annotation ###
+
+Code annotation is performed by using typing `# =>` at the end of the line you want to annotate. There is a ruby snippet that can speed up using this by typing `#` then `tab`.
  
 If you have a Ruby script that looks like:
 
@@ -89,14 +93,14 @@ Specifies the location of the xmpfilter executable for Windows systems. Default 
 
 ### check_for_rbenv ###
 
-Set to true to use rbenv-managed Ruby version if present (Linux & OSX only). Default setting:
+Set to true to use *rbenv* managed Ruby version if present (Linux & OSX only). Default setting:
 ```json
 "check_for_rbenv": false
 ```
 
 ### check_for_rvm ###
 
-Set to true to use rvm-managed Ruby version if present (Linux & OSX only). Default setting:
+Set to true to use *rvm* managed Ruby version if present (Linux & OSX only). Default setting:
 ```json
 "check_for_rvm": false
 ```
