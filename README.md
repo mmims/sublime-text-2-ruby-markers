@@ -77,6 +77,10 @@ fib(23)     # => 28657
 
 ## Settings ##
 
+Settings are accessible through via `Preferences -> Package Settings -> Ruby Markers`. The `Settings - Default` 
+option contains the defaults for all settings. When configuring settings, use the `Settings - User` option so that 
+your changes will not be overwritten by updates to the plugin. The settings files use `json` syntax.
+
 ### xmpfilter_bin_posix ###
 
 Specifies the location of the xmpfilter executable for Linux & OSX systems. Default setting:
