@@ -74,7 +74,7 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
         # Check for rmv or rbenv use
         # Thanks to Ruby Tests plugin <https://github.com/maltize/sublime-text-2-ruby-tests>
         if sublime.platform() != "windows":
-            rbenv_cmd = os.path.expanduser('~/.rbenv/bin/rbenv')
+            rbenv_cmd = os.path.expanduser(self.settings.get("rbenv_path", '~/.rbenv/bin/rbenv'))
             rvm_cmd = os.path.expanduser('~/.rvm/bin/rvm-auto-ruby')
             if self.settings.get("check_for_rbenv") and is_executable(rbenv_cmd):
                 self.settings.set("cmd", [rbenv_cmd, 'exec'])
