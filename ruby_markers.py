@@ -19,21 +19,21 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             text = strip_stdout_comments(text)
 
         startupinfo = None
+        currentdir = None
         if  sublime.platform() == "windows":
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             cmd = [self.settings.get("xmpfilter_bin_win", "xmpfilter.bat")]
         else:
-            cmd = self.settings.get("cmd", [])
-            cmd.append(self.settings.get("xmpfilter_bin_posix", "xmpfilter"))
-
-        try:
             currentfile = self.view.file_name()
             if currentfile == None:
                 currentdir = os.path.expanduser('~')
             else:
                 currentdir = os.path.dirname(currentfile)
+            cmd = self.settings.get("cmd", [])
+            cmd.append(self.settings.get("xmpfilter_bin_posix", "xmpfilter"))
 
+        try:
             s = subprocess.Popen(
                 cmd,
                 stdin=subprocess.PIPE,
