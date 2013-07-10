@@ -102,6 +102,14 @@ Set to true to use *rbenv* managed Ruby version if present (Linux & OSX only). D
 "check_for_rbenv": false
 ```
 
+### rbenv_path ###
+
+Specifies the default location of the *rbenv* executable (Linux & OSX only). For OSX homebrew, installations this 
+should be something like `/usr/local/var/rbenv`. Default setting:
+```json
+"rbenv_path": "~/.rbenv/bin/rbenv"
+```
+    
 ### check_for_rvm ###
 
 Set to true to use *rvm* managed Ruby version if present (Linux & OSX only). Default setting:
