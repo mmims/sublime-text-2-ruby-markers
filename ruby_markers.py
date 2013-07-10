@@ -28,11 +28,18 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             cmd.append(self.settings.get("xmpfilter_bin_posix", "xmpfilter"))
 
         try:
+            currentfile = self.view.file_name()
+            if currentfile == None:
+                currentdir = os.path.expanduser('~')
+            else:
+                currentdir = os.path.dirname(currentfile)
+
             s = subprocess.Popen(
                 cmd,
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
+                cwd=currentdir,
                 startupinfo=startupinfo)
             out, err = s.communicate(text.encode('utf8'))
             if s.returncode != None and s.returncode != 0:
