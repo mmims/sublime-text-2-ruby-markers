@@ -104,8 +104,8 @@ Set to true to use *rbenv* managed Ruby version if present (Linux & OSX only). D
 
 ### rbenv_path ###
 
-Specifies the default location of the *rbenv* executable (Linux & OSX only). For OSX homebrew, installations this 
-should be something like `/usr/local/var/rbenv`. Default setting:
+Specifies the default location of the *rbenv* executable (Linux & OSX only). For OS X homebrew installations, this 
+should be something like `/usr/local/bin/rbenv` depending on your prefix (`brew --prefix`). Default setting:
 ```json
 "rbenv_path": "~/.rbenv/bin/rbenv"
 ```
