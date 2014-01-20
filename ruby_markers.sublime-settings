@@ -8,7 +8,7 @@
     "check_for_rbenv": false,
 
     // Specifies the default rbenv location
-    // For OSX Homebrew installations this should be /usr/local/var/rbenv
+    // For OSX Homebrew installations this should be /usr/local/bin/rbenv
     "rbenv_path": "~/.rbenv/bin/rbenv",
     
     // Set to true to use rvm-managed Ruby version if present (Linux & OSX only)
