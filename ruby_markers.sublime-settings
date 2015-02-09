@@ -1,19 +1,34 @@
 {
-    // Specifies the location of the xmpfilter executable
-    // posix for Linux & OSX; win for windows
-    "xmpfilter_bin_posix": "xmpfilter",
-    "xmpfilter_bin_win": "xmpfilter.bat",
+    // Specifies the paths to search for rbenv
+    "rbenv_paths": [
+        "~/.rbenv/bin/rbenv",
+        "/usr/local/bin/rbenv"
+    ],
 
-    // Set to true to use rbenv-managed Ruby version if present (Linux & OSX only)
-    "check_for_rbenv": false,
+    // Specifies the ruby version manager
+    // Valid values are: auto, rbenv, rvm, none
+    "ruby_manager": "auto",
 
-    // Specifies the default rbenv location
-    // For OSX Homebrew installations this should be /usr/local/bin/rbenv
-    "rbenv_path": "~/.rbenv/bin/rbenv",
-    
-    // Set to true to use rvm-managed Ruby version if present (Linux & OSX only)
-    "check_for_rvm": false,
+    // Specifies the paths to search for rbenv
+    "rvm_paths": [
+        "~/.rvm/bin/rvm-auto-ruby",
+        "/usr/local/rvm/bin/rvm-auto-ruby"
+    ],
 
     // Set to true to strip stdout comments (# >> ) before updating the buffer
-    "strip_stdout": false
+    "strip_stdout": false,
+
+    // Specifies the location of the xmpfilter executable and any additional options
+    // posix for Linux & OSX; win for windows
+    "xmpfilter_bin_posix": ["xmpfilter"],
+    "xmpfilter_bin_win": ["xmpfilter.bat"],
+
+    // Set to true to supress standard output
+    "xmpfilter_quiet": false,
+
+    // Set to true to replace (# => ) with Test::Unit assertions
+    "xmpfilter_rails": false,
+
+    // Set to false to ignore warnings (# !> )
+    "xmpfilter_warnings": true
 }

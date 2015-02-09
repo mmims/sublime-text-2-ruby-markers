@@ -1,8 +1,10 @@
-# Sublime Text 2 Ruby Markers #
+# Sublime Text Ruby Markers #
 
-A Sublime Text 2 plugin to execute ruby code and update `# =>` markers with the results using the xmpfilter component of [rcodetools][0].
+A Sublime Text plugin to execute ruby code and update `# =>` markers with the results using the xmpfilter component of [rcodetools][0].
 
 ## Installation ##
+
+Installation consists of two parts: the *rcodetools* gem (*Ruby Markers* requires the use of *xmpfilter* which is a tool packaged with this gem) and the *Ruby Markers* Sublime Text package.
 
 ### rcodetools ###
 
@@ -12,7 +14,7 @@ The *rcodetools* gem **must** be installed on in order for the Ruby Markers plug
 
 *rbenv* users, please note that you will have to run `$ rbenv rehash` after installing the gem in order for *rbenv* to recognize the *xmpfilter* command.
 
-### Sublime Text 2 Ruby Markers ###
+### Sublime Text Ruby Markers ###
 
 Using [Package Control][3] (recommended):
 
@@ -21,13 +23,13 @@ Using [Package Control][3] (recommended):
 
 Or, determine the `Packages` path for your OS
 
- * OS X: `~/Library/Application\ Support/Sublime\ Text\ 2/Packages`
- * Windows: `%APPDATA%\Sublime Text 2\Packages\`
- * Linux: `~/.config/sublime-text-2/Packages/`
+ * OS X: `~/Library/Application\ Support/Sublime\ Text\ 2/Packages` or `~/Library/Application\ Support/Sublime\ Text\ /Packages`
+ * Windows: `%APPDATA%\Sublime Text 2\Packages\` or `%APPDATA%\Sublime Text 3\Packages\`
+ * Linux: `~/.config/sublime-text-2/Packages/` or `~/.config/sublime-text-3/Packages/`
 
 and clone the plugin via git:
 
-    $ git clone https://github.com/mmims/sublime-text-2-ruby-markers.git "<Sublime Text 2 Packages folder>/Ruby Markers"
+    $ git clone https://github.com/mmims/sublime-text-2-ruby-markers.git "<Sublime Text Packages folder>/Ruby Markers"
 
 ## Usage ##
 
@@ -81,40 +83,31 @@ Settings are accessible through via `Preferences -> Package Settings -> Ruby Mar
 option contains the defaults for all settings. When configuring settings, use the `Settings - User` option so that 
 your changes will not be overwritten by updates to the plugin. The settings files use `json` syntax.
 
-### xmpfilter_bin_posix ###
+### rbenv_paths ###
 
-Specifies the location of the xmpfilter executable for Linux & OSX systems. Default setting:
+Specifies a list of paths to search for the *rbenv* tool. Default setting:
 ```json
-"xmpfilter_bin_posix": "xmpfilter"
+"rbenv_paths": [
+    "~/.rbenv/bin/rbenv",
+    "/usr/local/bin/rbenv"
+]
 ```
 
-### xmpfilter_bin_win ###
+### ruby_manager ###
 
-Specifies the location of the xmpfilter executable for Windows systems. Default setting:
+Specifies which ruby version manager to use. Valid settings are: `auto`, `rbenv`, `rvm`, or `none`. Default setting:
 ```json
-"xmpfilter_bin_win": "xmpfilter.bat"
+"ruby_manager": "auto"
 ```
 
-### check_for_rbenv ###
+### rvm_paths ###
 
-Set to true to use *rbenv* managed Ruby version if present (Linux & OSX only). Default setting:
+Specifies a list of paths to search for the *rvm* tool. Default setting:
 ```json
-"check_for_rbenv": false
-```
-
-### rbenv_path ###
-
-Specifies the default location of the *rbenv* executable (Linux & OSX only). For OS X homebrew installations, this 
-should be something like `/usr/local/bin/rbenv` depending on your prefix (`brew --prefix`). Default setting:
-```json
-"rbenv_path": "~/.rbenv/bin/rbenv"
-```
-    
-### check_for_rvm ###
-
-Set to true to use *rvm* managed Ruby version if present (Linux & OSX only). Default setting:
-```json
-"check_for_rvm": false
+"rvm_paths": [
+    "~/.rvm/bin/rvm-auto-ruby",
+    "/usr/local/rvm/bin/rvm-auto-ruby"
+]
 ```
 
 ### strip_stdout ###
@@ -123,6 +116,53 @@ Set to true to strip stdout comments (`# >> `) before updating the buffer. Defau
 ```json
 "strip_stdout": false
 ```
+
+### xmpfilter_bin_posix ###
+
+Specifies the location of the xmpfilter executable for Linux & OSX systems. Default setting:
+```json
+"xmpfilter_bin_posix": ["xmpfilter"]
+```
+
+### xmpfilter_bin_win ###
+
+Specifies the location of the xmpfilter executable for Windows systems. Default setting:
+```json
+"xmpfilter_bin_win": ["xmpfilter.bat"]
+```
+
+### xmpfilter_quiet ###
+
+Set to true to suppress standard output. Default settings:
+```json
+    "xmpfilter_quiet": false
+```
+
+### xmpfilter_rails ###
+
+Set to true to replace `# =>` with Test::Unit assertions instead of annotations. Default setting:
+```json
+    "xmpfilter_rails": false,
+```
+
+### xmpfilter_warnings ###
+
+Set to false to ignore warnings ruby warnings in annotations. Default setting:
+```json
+    "xmpfilter_warnings": true
+```
+
+### check_for_rbenv ###
+
+Deprecated. Use `ruby_manager` instead.
+
+### check_for_rvm ###
+
+Deprecated. Use `ruby_manager` instead.
+
+### rbenv_path ###
+
+Deprecated. Use `rbenv_paths` instead.
 
  [0]: http://rubyforge.org/projects/rcodetools
  [1]: http://www.ruby-lang.org

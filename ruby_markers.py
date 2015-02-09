@@ -4,7 +4,7 @@ def is_executable(path):
     return os.path.isfile(path) and os.access(path, os.X_OK)
 
 def  strip_stdout_comments(text):
-    return re.sub('(?m)^# >> .*\Z', '', text)
+    return re.sub("(?m)^# >> .*\Z", '', text)
 
 class RubyMarkersCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -15,23 +15,32 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
     def execute_and_update(self, edit):
         text_reg = sublime.Region(0, self.view.size())
         text = self.view.substr(text_reg)
-        if self.settings.get("strip_stdout"):
+        if self.settings.get('strip_stdout'):
             text = strip_stdout_comments(text)
 
         startupinfo = None
         currentdir = None
-        if  sublime.platform() == "windows":
+        if sublime.platform() == 'windows':
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-            cmd = [self.settings.get("xmpfilter_bin_win", "xmpfilter.bat")]
+            cmd = self.settings.get('xmpfilter_bin_win', ['xmpfilter.bat'])
         else:
             currentfile = self.view.file_name()
             if currentfile == None:
                 currentdir = os.path.expanduser('~')
             else:
                 currentdir = os.path.dirname(currentfile)
-            cmd = self.settings.get("cmd", [])
-            cmd.append(self.settings.get("xmpfilter_bin_posix", "xmpfilter"))
+            cmd = self.settings.get('cmd', [])
+            cmd.extend(self.settings.get('xmpfilter_bin_posix', ['xmpfilter']))
+
+        if self.settings.get('xmpfilter_rails'):
+            cmd.append('--rails')
+        else:
+            if not self.settings.get('xmpfilter_warnings'):
+                cmd.append('--no-warnings')
+
+        if self.settings.get('xmpfilter_quiet'):
+            cmd.append('--quiet')
 
         try:
             s = subprocess.Popen(
@@ -62,39 +71,62 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             row,col = self.view.rowcol(region.begin())
             self.selections.append(
                 {
-                    "region": region,
-                    "row":    row,
-                    "col":    col
+                    'region': region,
+                    'row':    row,
+                    'col':    col
                 })
 
 
     def is_visible(self):
-        syntax = self.view.settings().get("syntax").lower()
-        return (syntax == "packages/ruby/ruby.tmlanguage") or \
-               (syntax == "packages/text/plain text.tmlanguage") or \
+        syntax = self.view.settings().get('syntax').lower()
+        return (syntax == 'packages/ruby/ruby.tmlanguage') or \
+               (syntax == 'packages/text/plain text.tmlanguage') or \
                self.view.is_scratch()
 
 
     def load_settings(self):
         self.settings = sublime.load_settings('ruby_markers.sublime-settings')
 
-        # Check for rmv or rbenv use
-        # Thanks to Ruby Tests plugin <https://github.com/maltize/sublime-text-2-ruby-tests>
-        if sublime.platform() != "windows":
-            rbenv_cmd = os.path.expanduser(self.settings.get("rbenv_path", '~/.rbenv/bin/rbenv'))
-            rvm_cmd = os.path.expanduser('~/.rvm/bin/rvm-auto-ruby')
-            if self.settings.get("check_for_rbenv") and is_executable(rbenv_cmd):
-                self.settings.set("cmd", [rbenv_cmd, 'exec'])
-            if self.settings.get("check_for_rvm") and is_executable(rvm_cmd):
-                self.settings.set("cmd", [rvm_cmd, '-S'])
+        if self.settings.has('check_for_rbenv'):
+            sublime.status_message("The `check_for_rbenv` setting has been deprecated. Please remove it and set `ruby_manager` to `rbenv` instead.")
+        if self.settings.has('check_for_rvm'):
+            sublime.status_message("The `check_for_rvm` setting has been deprecated. Please remove it and set `ruby_manager` to `rvm` instead.")
+        if self.settings.has('rbenv_path'):
+            sublime.status_message("The `rbenv_path` setting has been deprecated. Please add the path to `rbenv_paths` instead.")
+
+        path_search = self.settings.get('ruby_manager', 'auto').lower()
+
+        if sublime.platform() != 'windows' and path_search != 'none':
+            if path_search == 'auto' or path_search != 'rvm':
+                rbenv_paths = self.settings.get('rbenv_paths')
+
+                # check for deprecated setting
+                user_path = self.settings.get('rbenv_path')
+                if user_path != None:
+                    rbenv_paths.append(user_path)
+
+                for path in rbenv_paths:
+                    path = os.path.expanduser(path)
+                    if is_executable(path):
+                        self.settings.set('cmd', [path, 'exec'])
+                        return
+
+            if path_search == 'auto' or path_search != 'rbenv':
+                rvm_paths = self.settings.get('rvm_paths')
+
+                for path in rvm_paths:
+                    path = os.path.expanduser(path)
+                    if is_executable(path):
+                        self.settings.set('cmd', [path, '-S'])
+                        return
 
 
     def reset_selections(self):
         self.view.sel().clear()
 
         for selection in self.selections:
-            pos = self.view.text_point(selection["row"], selection["col"])
-            region = selection["region"]
+            pos = self.view.text_point(selection['row'], selection['col'])
+            region = selection['region']
             if region.empty():
                 self.view.sel().add(sublime.Region(pos, pos))
             elif region.a < region.b:
