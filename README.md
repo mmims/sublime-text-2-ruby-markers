@@ -142,7 +142,7 @@ Set to true to suppress standard output. Default settings:
 
 Set to true to replace `# =>` with Test::Unit assertions instead of annotations. Default setting:
 ```json
-"xmpfilter_rails": false,
+"xmpfilter_rails": false
 ```
 
 ### xmpfilter_warnings ###
