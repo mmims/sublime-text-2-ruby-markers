@@ -135,21 +135,21 @@ Specifies the location of the xmpfilter executable for Windows systems. Default 
 
 Set to true to suppress standard output. Default settings:
 ```json
-    "xmpfilter_quiet": false
+"xmpfilter_quiet": false
 ```
 
 ### xmpfilter_rails ###
 
 Set to true to replace `# =>` with Test::Unit assertions instead of annotations. Default setting:
 ```json
-    "xmpfilter_rails": false,
+"xmpfilter_rails": false,
 ```
 
 ### xmpfilter_warnings ###
 
 Set to false to ignore warnings ruby warnings in annotations. Default setting:
 ```json
-    "xmpfilter_warnings": true
+"xmpfilter_warnings": true
 ```
 
 ### check_for_rbenv ###
