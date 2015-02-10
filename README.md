@@ -133,7 +133,7 @@ Specifies the location of the xmpfilter executable for Windows systems. Default 
 
 ### xmpfilter_quiet ###
 
-Set to true to suppress standard output. Default settings:
+Set to true to suppress standard output. Default setting:
 ```json
 "xmpfilter_quiet": false
 ```
