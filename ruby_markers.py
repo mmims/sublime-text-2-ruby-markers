@@ -31,7 +31,7 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             else:
                 currentdir = os.path.dirname(currentfile)
             cmd = self.settings.get('cmd', [])
-            cmd.extend(self.settings.get('xmpfilter_bin_posix', ['xmpfilter']))
+            cmd.append(self.settings.get('xmpfilter_bin_posix', ['xmpfilter']))
 
         if self.settings.get('xmpfilter_rails'):
             cmd.append('--rails')
@@ -54,7 +54,6 @@ class RubyMarkersCommand(sublime_plugin.TextCommand):
             if s.returncode != None and s.returncode != 0:
                 sublime.message_dialog("There was a subprocess error: " + err.decode('utf8'))
                 return
-
             # Replace the entire buffer with output and trim trailing newline
             self.view.replace(edit, text_reg, out.decode('utf8')[:-1])
 
